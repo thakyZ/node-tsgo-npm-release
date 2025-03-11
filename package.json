@@ -1,0 +1,39 @@
+{
+  "name": "tsgo-npm-release",
+  "version": "0.1.0",
+  "description": "tsgo npm release",
+  "type": "module",
+  "bin": {
+    "tsgo": "./bin.js"
+  },
+  "scripts": {
+    "postinstall": "node install.js"
+  },
+  "files": [
+    "bin.js",
+    "install.js"
+  ],
+  "dependencies": {
+    "bin-links": "^3.0.3",
+    "node-fetch": "^2.6.7",
+    "tar": "^6.1.11",
+    "mkdirp": "^1.0.4"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32",
+    "freebsd"
+  ],
+  "cpu": [
+    "x64",
+    "ia32",
+    "arm",
+    "arm64"
+  ],
+  "engines": {
+    "node": ">=12"
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@10.5.2"
+}
