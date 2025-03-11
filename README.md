@@ -19,7 +19,7 @@ This unofficial package allows developers to:
 ## Installation
 
 ```bash
-npm install typescript-go
+npm install @rxliuli/tsgo
 ```
 
 ## Usage
@@ -28,10 +28,10 @@ This package provides the `tsgo` binary which functions similarly to `tsc`:
 
 ```bash
 # Check a TypeScript file (similar to tsc)
-npx tsgo path/to/file.ts
+npx tsgo tsc path/to/file.ts
 
 # Use a tsconfig.json file
-npx tsgo --project path/to/tsconfig.json
+npx tsgo tsc --project path/to/tsconfig.json
 ```
 
 For LSP (Language Server Protocol) usage, please refer to the [official repository](https://github.com/microsoft/typescript-go) for setup instructions.
