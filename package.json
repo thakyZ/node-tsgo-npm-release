@@ -8,7 +8,7 @@
   },
   "scripts": {
     "postinstall": "node install.js",
-    "prepublishOnly": "npm i && rm bin/tsgo-darwin-arm64"
+    "prepublishOnly": "npm i && rm bin/tsgo-*"
   },
   "files": [
     "bin",

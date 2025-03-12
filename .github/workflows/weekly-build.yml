@@ -86,7 +86,7 @@ jobs:
                 - linux
                 - windows
                 - darwin
-                # - freebsd
+                - freebsd
               goarch:
                 - amd64
                 # - 386
@@ -123,14 +123,11 @@ jobs:
           cp ./typescript-go/dist/tsgo_windows_arm64/tsgo.exe ./release-artifacts/tsgo-windows-arm64.exe
           # cp ./typescript-go/dist/tsgo_windows_386_v1/tsgo.exe ./release-artifacts/tsgo-windows-386.exe
 
-
           cp ./typescript-go/dist/tsgo_darwin_amd64_v1/tsgo ./release-artifacts/tsgo-darwin-amd64
           cp ./typescript-go/dist/tsgo_darwin_arm64/tsgo ./release-artifacts/tsgo-darwin-arm64
 
-
-          # cp ./typescript-go/dist/tsgo_freebsd_amd64_v1/tsgo ./release-artifacts/tsgo-freebsd-amd64
-          # cp ./typescript-go/dist/tsgo_freebsd_386_v1/tsgo ./release-artifacts/tsgo-freebsd-386
-
+          cp ./typescript-go/dist/tsgo_freebsd_amd64_v1/tsgo ./release-artifacts/tsgo-freebsd-amd64
+          cp ./typescript-go/dist/tsgo_freebsd_arm64/tsgo ./release-artifacts/tsgo-freebsd-arm64
 
           ls -la ./release-artifacts/
 
@@ -180,6 +177,6 @@ jobs:
 
       - name: Publish to npm
         working-directory: ./npm-package
-        run: npm publish
+        run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
