@@ -81,21 +81,21 @@ jobs:
                 - linux
                 - windows
                 - darwin
-                - freebsd
+                # - freebsd
               goarch:
                 - amd64
-                - 386
+                # - 386
                 - arm64
-                - arm
-              ignore:
-                - goos: darwin
-                  goarch: 386
-                - goos: darwin
-                  goarch: arm
-                - goos: windows
-                  goarch: arm64
-                - goos: windows
-                  goarch: arm
+                # - arm
+              # ignore:
+              #   - goos: darwin
+              #     goarch: 386
+              #   - goos: darwin
+              #     goarch: arm
+              #   - goos: windows
+              #     goarch: arm64
+              #   - goos: windows
+              #     goarch: arm
           EOF
 
       - name: Build binaries
@@ -110,21 +110,21 @@ jobs:
 
 
           cp ./typescript-go/dist/tsgo_linux_amd64_v1/tsgo ./release-artifacts/tsgo-linux-amd64
-          cp ./typescript-go/dist/tsgo_linux_386_v1/tsgo ./release-artifacts/tsgo-linux-386
-          cp ./typescript-go/dist/tsgo_linux_arm64_v1/tsgo ./release-artifacts/tsgo-linux-arm64
-          cp ./typescript-go/dist/tsgo_linux_arm_v7/tsgo ./release-artifacts/tsgo-linux-arm
-
+          # cp ./typescript-go/dist/tsgo_linux_386_v1/tsgo ./release-artifacts/tsgo-linux-386
+          cp ./typescript-go/dist/tsgo_linux_arm64/tsgo ./release-artifacts/tsgo-linux-arm64
+          # cp ./typescript-go/dist/tsgo_linux_arm_v7/tsgo ./release-artifacts/tsgo-linux-arm
 
           cp ./typescript-go/dist/tsgo_windows_amd64_v1/tsgo.exe ./release-artifacts/tsgo-windows-amd64.exe
-          cp ./typescript-go/dist/tsgo_windows_386_v1/tsgo.exe ./release-artifacts/tsgo-windows-386.exe
+          cp ./typescript-go/dist/tsgo_windows_arm64/tsgo.exe ./release-artifacts/tsgo-windows-arm64.exe
+          # cp ./typescript-go/dist/tsgo_windows_386_v1/tsgo.exe ./release-artifacts/tsgo-windows-386.exe
 
 
           cp ./typescript-go/dist/tsgo_darwin_amd64_v1/tsgo ./release-artifacts/tsgo-darwin-amd64
-          cp ./typescript-go/dist/tsgo_darwin_arm64_v1/tsgo ./release-artifacts/tsgo-darwin-arm64
+          cp ./typescript-go/dist/tsgo_darwin_arm64/tsgo ./release-artifacts/tsgo-darwin-arm64
 
 
-          cp ./typescript-go/dist/tsgo_freebsd_amd64_v1/tsgo ./release-artifacts/tsgo-freebsd-amd64
-          cp ./typescript-go/dist/tsgo_freebsd_386_v1/tsgo ./release-artifacts/tsgo-freebsd-386
+          # cp ./typescript-go/dist/tsgo_freebsd_amd64_v1/tsgo ./release-artifacts/tsgo-freebsd-amd64
+          # cp ./typescript-go/dist/tsgo_freebsd_386_v1/tsgo ./release-artifacts/tsgo-freebsd-386
 
 
           ls -la ./release-artifacts/
@@ -132,13 +132,13 @@ jobs:
       - name: Find TypeScript declaration files
         working-directory: ./typescript-go
         run: |
-          find . -name "*.d.ts" | sort
+          find ./built/local/ -name "*.d.ts" | sort
 
       - name: Copy TypeScript declaration files to npm package
         run: |
           mkdir -p npm-package/bin
 
-          find ./typescript-go -name "*.d.ts" -exec cp {} ./npm-package/bin/ \;
+          find ./typescript-go/built/local/ -name "*.d.ts" -exec cp {} ./npm-package/bin/ \;
           echo "Copied declaration files to npm-package/bin:"
           ls -la ./npm-package/bin/
 
