@@ -58,8 +58,9 @@ This unofficial package will be updated periodically as significant progress is 
 
 For issues related to TypeScript-Go itself, please file them in the [official repository](https://github.com/microsoft/typescript-go).
 
-For issues specific to this NPM package distribution, please file them in [package repository URL].
+For issues specific to this NPM package distribution, please file them in <https://github.com/rxliuli/tsgo-npm-release>.
 
 ## License
 
-TypeScript-Go is licensed under the MIT License - see the official repository for details.
+The TypeScript project is licensed under the [Apache License 2.0](https://github.com/microsoft/typescript-go/blob/main/LICENSE).
+
