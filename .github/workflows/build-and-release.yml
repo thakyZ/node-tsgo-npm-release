@@ -54,17 +54,14 @@ jobs:
       - name: Checkout TypeScript-Go repository
         uses: actions/checkout@v4
         with:
-          # repository: microsoft/typescript-go
-          repository: mxyhi/tsgo-npm-release
-          # path: typescript-go
-          path: tsgo-npm-release
+          repository: microsoft/typescript-go
+          path: typescript-go
           submodules: "recursive"
           fetch-depth: 0
 
       - name: Generate changelog from recent commits
         id: changelog
-        # working-directory: ./typescript-go
-        working-directory: ./tsgo-npm-release
+        working-directory: ./typescript-go
         run: |
           # Get timestamp from 6 hours ago
           SIX_HOURS_AGO=$(date -d "6 hours ago" +"%Y-%m-%d %H:%M:%S")
@@ -82,93 +79,93 @@ jobs:
           echo "$CHANGELOG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      # - name: Install dependencies (TypeScript-Go)
-      #   working-directory: ./typescript-go
-      #   run: npm ci
+      - name: Install dependencies (TypeScript-Go)
+        working-directory: ./typescript-go
+        run: npm ci
 
-      # - name: Build TypeScript-Go
-      #   working-directory: ./typescript-go
-      #   run: |
-      #     hereby build
-      #     ls -la built/local
+      - name: Build TypeScript-Go
+        working-directory: ./typescript-go
+        run: |
+          hereby build
+          ls -la built/local
 
-      # - name: Install GoReleaser
-      #   uses: goreleaser/goreleaser-action@v5
-      #   with:
-      #     install-only: true
+      - name: Install GoReleaser
+        uses: goreleaser/goreleaser-action@v5
+        with:
+          install-only: true
 
-      # - name: Create temporary .goreleaser.yml
-      #   working-directory: ./typescript-go
-      #   run: |
-      #     cat > .goreleaser.yml << EOF
-      #     builds:
-      #       - id: tsgo
-      #         binary: tsgo
-      #         main: ./cmd/tsgo
-      #         ldflags:
-      #           - -s -w -X main.version=${{ steps.version.outputs.version }}
-      #         env:
-      #           - CGO_ENABLED=0
-      #         goos:
-      #           - linux
-      #           - windows
-      #           - darwin
-      #           - freebsd
-      #         goarch:
-      #           - amd64
-      #           # - 386
-      #           - arm64
-      #           # - arm
-      #         # ignore:
-      #         #   - goos: darwin
-      #         #     goarch: 386
-      #         #   - goos: darwin
-      #         #     goarch: arm
-      #         #   - goos: windows
-      #         #     goarch: arm64
-      #         #   - goos: windows
-      #         #     goarch: arm
-      #     EOF
+      - name: Create temporary .goreleaser.yml
+        working-directory: ./typescript-go
+        run: |
+          cat > .goreleaser.yml << EOF
+          builds:
+            - id: tsgo
+              binary: tsgo
+              main: ./cmd/tsgo
+              ldflags:
+                - -s -w -X main.version=${{ steps.version.outputs.version }}
+              env:
+                - CGO_ENABLED=0
+              goos:
+                - linux
+                - windows
+                - darwin
+                - freebsd
+              goarch:
+                - amd64
+                # - 386
+                - arm64
+                # - arm
+              # ignore:
+              #   - goos: darwin
+              #     goarch: 386
+              #   - goos: darwin
+              #     goarch: arm
+              #   - goos: windows
+              #     goarch: arm64
+              #   - goos: windows
+              #     goarch: arm
+          EOF
 
-      # - name: Build binaries
-      #   working-directory: ./typescript-go
-      #   run: |
-      #     goreleaser build --snapshot --clean
-      #     find dist -type f | sort
+      - name: Build binaries
+        working-directory: ./typescript-go
+        run: |
+          goreleaser build --snapshot --clean
+          find dist -type f | sort
 
-      # - name: Rename binaries for clarity
-      #   run: |
-      #     mkdir -p ./release-artifacts
+      - name: Rename binaries for clarity
+        run: |
+          mkdir -p ./release-artifacts
 
-      #     cp ./typescript-go/dist/tsgo_linux_amd64_v1/tsgo ./release-artifacts/tsgo-linux-amd64
-      #     # cp ./typescript-go/dist/tsgo_linux_386_v1/tsgo ./release-artifacts/tsgo-linux-386
-      #     cp ./typescript-go/dist/tsgo_linux_arm64/tsgo ./release-artifacts/tsgo-linux-arm64
-      #     # cp ./typescript-go/dist/tsgo_linux_arm_v7/tsgo ./release-artifacts/tsgo-linux-arm
+          cp ./typescript-go/dist/tsgo_linux_amd64_v1/tsgo ./release-artifacts/tsgo-linux-amd64
+          # cp ./typescript-go/dist/tsgo_linux_386_v1/tsgo ./release-artifacts/tsgo-linux-386
+          cp ./typescript-go/dist/tsgo_linux_arm64/tsgo ./release-artifacts/tsgo-linux-arm64
+          # cp ./typescript-go/dist/tsgo_linux_arm_v7/tsgo ./release-artifacts/tsgo-linux-arm
 
-      #     cp ./typescript-go/dist/tsgo_windows_amd64_v1/tsgo.exe ./release-artifacts/tsgo-windows-amd64.exe
-      #     cp ./typescript-go/dist/tsgo_windows_arm64/tsgo.exe ./release-artifacts/tsgo-windows-arm64.exe
-      #     # cp ./typescript-go/dist/tsgo_windows_386_v1/tsgo.exe ./release-artifacts/tsgo-windows-386.exe
+          cp ./typescript-go/dist/tsgo_windows_amd64_v1/tsgo.exe ./release-artifacts/tsgo-windows-amd64.exe
+          cp ./typescript-go/dist/tsgo_windows_arm64/tsgo.exe ./release-artifacts/tsgo-windows-arm64.exe
+          # cp ./typescript-go/dist/tsgo_windows_386_v1/tsgo.exe ./release-artifacts/tsgo-windows-386.exe
 
-      #     cp ./typescript-go/dist/tsgo_darwin_amd64_v1/tsgo ./release-artifacts/tsgo-darwin-amd64
-      #     cp ./typescript-go/dist/tsgo_darwin_arm64/tsgo ./release-artifacts/tsgo-darwin-arm64
+          cp ./typescript-go/dist/tsgo_darwin_amd64_v1/tsgo ./release-artifacts/tsgo-darwin-amd64
+          cp ./typescript-go/dist/tsgo_darwin_arm64/tsgo ./release-artifacts/tsgo-darwin-arm64
 
-      #     cp ./typescript-go/dist/tsgo_freebsd_amd64_v1/tsgo ./release-artifacts/tsgo-freebsd-amd64
-      #     cp ./typescript-go/dist/tsgo_freebsd_arm64/tsgo ./release-artifacts/tsgo-freebsd-arm64
+          cp ./typescript-go/dist/tsgo_freebsd_amd64_v1/tsgo ./release-artifacts/tsgo-freebsd-amd64
+          cp ./typescript-go/dist/tsgo_freebsd_arm64/tsgo ./release-artifacts/tsgo-freebsd-arm64
 
-      #     ls -la ./release-artifacts/
+          ls -la ./release-artifacts/
 
-      # - name: Find TypeScript declaration files
-      #   working-directory: ./typescript-go
-      #   run: |
-      #     find ./built/local/ -name "*.d.ts" | sort
+      - name: Find TypeScript declaration files
+        working-directory: ./typescript-go
+        run: |
+          find ./built/local/ -name "*.d.ts" | sort
 
-      # - name: Copy TypeScript declaration files to npm package
-      #   run: |
-      #     mkdir -p npm-package/bin
+      - name: Copy TypeScript declaration files to npm package
+        run: |
+          mkdir -p npm-package/bin
 
-      #     find ./typescript-go/built/local/ -name "*.d.ts" -exec cp {} ./npm-package/bin/ \;
-      #     echo "Copied declaration files to npm-package/bin:"
-      #     ls -la ./npm-package/bin/
+          find ./typescript-go/built/local/ -name "*.d.ts" -exec cp {} ./npm-package/bin/ \;
+          echo "Copied declaration files to npm-package/bin:"
+          ls -la ./npm-package/bin/
 
       - name: Update package.json version
         working-directory: ./npm-package
@@ -251,16 +248,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Upload binaries to GitHub Release
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     tag_name: v${{ steps.version.outputs.version }}
-      #     files: ./release-artifacts/*
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload binaries to GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          files: ./release-artifacts/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Publish to npm
-      #   working-directory: ./npm-package
-      #   run: npm publish --provenance --access public
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to npm
+        working-directory: ./npm-package
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
