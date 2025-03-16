@@ -5,6 +5,8 @@ import json from './package.json' with { type: 'json' }
 import { fileURLToPath } from 'node:url'
 import { pathExists } from 'path-exists'
 
+const scopeGithubName = "mxyhi";
+
 const platform = process.platform
 const arch = process.arch
 
@@ -26,7 +28,7 @@ const ext = platform === 'win32' ? '.exe' : ''
 
 const binaryName = `tsgo-${platformMap[platform]}-${archMap[arch]}${ext}`
 
-const downloadUrl = `https://github.com/rxliuli/tsgo-npm-release/releases/download/v${json.version}/${binaryName}`
+const downloadUrl = `https://github.com/${scopeGithubName}/tsgo-npm-release/releases/download/v${json.version}/${binaryName}`
 
 const binDir = join(path.dirname(fileURLToPath(import.meta.url)), 'bin')
 await mkdir(binDir, { recursive: true })
