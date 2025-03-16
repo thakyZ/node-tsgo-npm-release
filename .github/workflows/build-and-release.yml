@@ -54,14 +54,17 @@ jobs:
       - name: Checkout TypeScript-Go repository
         uses: actions/checkout@v4
         with:
-          repository: microsoft/typescript-go
-          path: typescript-go
+          # repository: microsoft/typescript-go
+          repository: mxyhi/tsgo-npm-release
+          # path: typescript-go
+          path: tsgo-npm-release
           submodules: "recursive"
           fetch-depth: 0
 
       - name: Generate changelog from recent commits
         id: changelog
-        working-directory: ./typescript-go
+        # working-directory: ./typescript-go
+        working-directory: ./tsgo-npm-release
         run: |
           # Get timestamp from 6 hours ago
           SIX_HOURS_AGO=$(date -d "6 hours ago" +"%Y-%m-%d %H:%M:%S")
