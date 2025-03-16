@@ -180,7 +180,7 @@ jobs:
         working-directory: ./npm-package
         run: |
           # Prepare changelog for new version
-          NEW_CHANGELOG="# $VERSION ($(date +'%Y-%m-%d'))\n\n## Changes in the last 6 hours:\n${{ steps.changelog.outputs.CHANGELOG }}\n\n"
+          NEW_CHANGELOG=$(printf "# %s (%s)\n\n## Changes in the last 6 hours:\n%s\n\n" "$VERSION" "$(date +'%Y-%m-%d')" "${{ steps.changelog.outputs.CHANGELOG }}")
           
           # Check if CHANGELOG.md exists
           if [ -f "CHANGELOG.md" ]; then
@@ -204,7 +204,8 @@ jobs:
           git add package.json
           git add CHANGELOG.md
           git commit -m "release: update version to $VERSION" || echo "No changes to commit"
-          git tag -a v$VERSION -m "Release $VERSION\n\n${{ steps.changelog.outputs.CHANGELOG }}"
+          TAG_MESSAGE=$(printf "Release %s\n\n%s" "$VERSION" "${{ steps.changelog.outputs.CHANGELOG }}")
+          git tag -a v$VERSION -m "$TAG_MESSAGE"
           git push origin HEAD:main
           git push origin v$VERSION
 
