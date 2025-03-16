@@ -36,7 +36,7 @@ await mkdir(binDir, { recursive: true })
 const binaryPath = join(binDir, binaryName)
 
 if (await pathExists(binaryPath)) {
-  // console.log('Binary file already exists, skipping download.')
+  console.log('Binary file already exists, skipping download.')
   process.exit(0)
 }
 
