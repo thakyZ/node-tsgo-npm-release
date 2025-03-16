@@ -1,4 +1,4 @@
-name: Weekly Build and Release
+name: Six-hourly Build and Release
 
 on:
   schedule:
