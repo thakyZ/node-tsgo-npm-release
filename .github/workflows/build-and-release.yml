@@ -57,6 +57,27 @@ jobs:
           repository: microsoft/typescript-go
           path: typescript-go
           submodules: "recursive"
+          fetch-depth: 0
+
+      - name: Generate changelog from recent commits
+        id: changelog
+        working-directory: ./typescript-go
+        run: |
+          # 获取六小时前的时间戳
+          SIX_HOURS_AGO=$(date -d "6 hours ago" +"%Y-%m-%d %H:%M:%S")
+          
+          # 获取最近六小时的提交记录
+          CHANGELOG=$(git log --since="$SIX_HOURS_AGO" --pretty=format:"* %h %s (%an)" --no-merges)
+          
+          # 如果没有提交记录，则添加默认消息
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG="No new commits in the last 6 hours."
+          fi
+          
+          # 将changelog保存到输出变量，处理多行字符串
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Install dependencies (TypeScript-Go)
         working-directory: ./typescript-go
@@ -170,9 +191,12 @@ jobs:
           tag_name: v${{ steps.version.outputs.version }}
           name: Release ${{ steps.version.outputs.version }}
           body: |
-            TypeScript-Go weekly build for ${{ steps.version.outputs.version }}
+            TypeScript-Go build for ${{ steps.version.outputs.version }}
 
             This release contains the latest build of TypeScript-Go with binary executables for multiple platforms.
+            
+            ## Changes in the last 6 hours:
+            ${{ steps.changelog.outputs.CHANGELOG }}
           draft: false
           prerelease: false
           files: ./release-artifacts/*
