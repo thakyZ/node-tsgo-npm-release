@@ -16,9 +16,16 @@ const archMap = {
   arm64: 'arm64',
 }
 
+const platformMap = {
+  darwin: 'darwin',
+  win32: 'windows',
+  linux: 'linux',
+  freebsd: 'freebsd',
+}
+
 const ext = platform === 'win32' ? '.exe' : ''
 
-const binaryName = `tsgo-${platform}-${archMap[arch]}${ext}`
+const binaryName = `tsgo-${platformMap[platform]}-${archMap[arch]}${ext}`;
 
 const binaryPath = join(path.dirname(fileURLToPath(import.meta.url)), 'bin', binaryName)
 
