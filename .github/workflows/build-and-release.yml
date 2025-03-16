@@ -201,8 +201,14 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
+          # Save any changes before pulling
+          git stash -u || echo "No changes to stash"
+
           # Pull latest changes first to ensure local repo is up-to-date
           git pull origin main --rebase
+
+          # Apply stashed changes if any were stashed
+          git stash pop || echo "No stash to pop"
 
           git add package.json
           git add CHANGELOG.md
