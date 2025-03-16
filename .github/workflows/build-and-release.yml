@@ -2,7 +2,7 @@ name: Weekly Build and Release
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
 
   workflow_dispatch:
 
@@ -18,8 +18,8 @@ jobs:
     environment: npm-publish
 
     env:
-      GO_VERSION: '1.24.0'
-      NODE_VERSION: '20.x'
+      GO_VERSION: "1.24.0"
+      NODE_VERSION: "22.x"
 
     steps:
       - name: Generate version number
@@ -45,7 +45,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: https://registry.npmjs.org/
-          scope: '@rxliuli'
+          scope: "@mxyhi"
 
       - name: Install hereby
         run: npm install -g hereby
@@ -55,7 +55,7 @@ jobs:
         with:
           repository: microsoft/typescript-go
           path: typescript-go
-          submodules: 'recursive'
+          submodules: "recursive"
 
       - name: Install dependencies (TypeScript-Go)
         working-directory: ./typescript-go

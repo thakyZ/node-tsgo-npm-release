@@ -1,5 +1,5 @@
 {
-  "name": "@rxliuli/tsgo",
+  "name": "@mxyhi/tsgo",
   "version": "0.1.2",
   "description": "typescript-go npm release(unofficial)",
   "type": "module",
@@ -16,7 +16,7 @@
     "install.js"
   ],
   "repository": {
-    "url": "https://github.com/rxliuli/tsgo-npm-release"
+    "url": "https://github.com/mxyhi/tsgo-npm-release"
   },
   "dependencies": {
     "bin-links": "^3.0.3",
