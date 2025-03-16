@@ -36,6 +36,10 @@ npx tsgo tsc --project path/to/tsconfig.json
 
 For LSP (Language Server Protocol) usage, please refer to the [official repository](https://github.com/microsoft/typescript-go) for setup instructions.
 
+## Build Schedule
+
+The package is automatically built and published every 6 hours at 00:00, 06:00, 12:00, and 18:00 UTC. Each build includes the latest changes from the TypeScript-Go repository.
+
 ## Current Limitations
 
 As noted in the official repository, TypeScript-Go is still a work in progress with many features incomplete. Current limitations include:
@@ -63,4 +67,3 @@ For issues specific to this NPM package distribution, please file them in <https
 ## License
 
 The TypeScript project is licensed under the [Apache License 2.0](https://github.com/microsoft/typescript-go/blob/main/LICENSE).
-
