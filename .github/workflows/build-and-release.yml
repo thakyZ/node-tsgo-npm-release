@@ -1,10 +1,19 @@
-name: Weekly Build and Release
+name: Build and Release
 
 on:
   schedule:
     - cron: '0 0 * * *'
 
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (leave empty for auto date-based version)'
+        required: false
+        type: string
+
+  push:
+    tags:
+      - 'v*'
 
 permissions:
   contents: write
@@ -25,7 +34,16 @@ jobs:
       - name: Generate version number
         id: version
         run: |
-          VERSION=$(date +'%Y.%-m.%-d')
+          if [[ "${{ github.event_name }}" == "push" && "${{ github.ref_type }}" == "tag" ]]; then
+            # Extract version from tag (remove 'v' prefix)
+            VERSION="${GITHUB_REF#refs/tags/v}"
+          elif [[ -n "${{ inputs.version }}" ]]; then
+            # Use manually provided version from workflow_dispatch
+            VERSION="${{ inputs.version }}"
+          else
+            # Default: use date-based version
+            VERSION=$(date +'%Y.%-m.%-d')
+          fi
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
@@ -115,7 +133,6 @@ jobs:
         run: |
           mkdir -p ./release-artifacts
 
-
           cp ./typescript-go/dist/tsgo_linux_amd64_v1/tsgo ./release-artifacts/tsgo-linux-amd64
           # cp ./typescript-go/dist/tsgo_linux_386_v1/tsgo ./release-artifacts/tsgo-linux-386
           cp ./typescript-go/dist/tsgo_linux_arm64/tsgo ./release-artifacts/tsgo-linux-arm64
@@ -154,25 +171,29 @@ jobs:
             npm version $VERSION --no-git-tag-version
           fi
 
+      - name: Determine tag name
+        id: tag
+        run: |
+          if [[ "${{ github.event_name }}" == "push" && "${{ github.ref_type }}" == "tag" ]]; then
+            # Tag already exists, use it
+            TAG="${GITHUB_REF#refs/tags/}"
+          else
+            # Create a new tag
+            TAG="v${{ steps.version.outputs.version }}"
+          fi
+          echo "tag_name=$TAG" >> $GITHUB_OUTPUT
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.version.outputs.version }}
+          tag_name: ${{ steps.tag.outputs.tag_name }}
           name: Release ${{ steps.version.outputs.version }}
           body: |
-            TypeScript-Go weekly build for ${{ steps.version.outputs.version }}
+            TypeScript-Go build for ${{ steps.version.outputs.version }}
 
             This release contains the latest build of TypeScript-Go with binary executables for multiple platforms.
           draft: false
           prerelease: false
-          files: ./release-artifacts/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload binaries to GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: v${{ steps.version.outputs.version }}
           files: ./release-artifacts/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
