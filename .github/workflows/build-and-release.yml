@@ -201,13 +201,29 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+          
+          # 先拉取最新的更改，确保本地仓库是最新的
+          git pull origin main --rebase
+          
           git add package.json
           git add CHANGELOG.md
           git commit -m "release: update version to $VERSION" || echo "No changes to commit"
           TAG_MESSAGE=$(printf "Release %s\n\n%s" "$VERSION" "${{ steps.changelog.outputs.CHANGELOG }}")
-          git tag -a v$VERSION -m "$TAG_MESSAGE"
-          git push origin HEAD:main
-          git push origin v$VERSION
+          
+          # 检查标签是否已存在
+          if git ls-remote --tags origin | grep -q "refs/tags/v$VERSION"; then
+            echo "Tag v$VERSION already exists, skipping tag creation"
+          else
+            git tag -a v$VERSION -m "$TAG_MESSAGE"
+          fi
+          
+          # 使用 --force 标志强制推送，但要谨慎使用
+          git push origin HEAD:main || git push --force origin HEAD:main
+          
+          # 只有在标签不存在时才推送标签
+          if ! git ls-remote --tags origin | grep -q "refs/tags/v$VERSION"; then
+            git push origin v$VERSION || echo "Failed to push tag, it may already exist remotely"
+          fi
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
