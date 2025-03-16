@@ -1,5 +1,7 @@
 # Unofficial NPM Package for TypeScript-Go
 
+[中文文档](./README.zh-CN.md)
+
 This package provides an unofficial NPM distribution of [Microsoft's TypeScript-Go](https://github.com/microsoft/typescript-go) project, which is a Go-based port of TypeScript.
 
 ## ⚠️ Important Notice
