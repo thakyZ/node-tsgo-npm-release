@@ -21,7 +21,7 @@
 ## 安装
 
 ```bash
-npm install @rxliuli/tsgo
+npm install @mxyhi/tsgo
 ```
 
 ## 使用方法
@@ -40,7 +40,7 @@ npx tsgo tsc --project path/to/tsconfig.json
 
 ## 构建计划
 
-该包每6小时自动构建并发布一次，在 UTC 时间的 00:00、06:00、12:00 和 18:00。每次构建都包括 TypeScript-Go 仓库的最新更改。
+该包每 6 小时自动构建并发布一次，在 UTC 时间的 00:00、06:00、12:00 和 18:00。每次构建都包括 TypeScript-Go 仓库的最新更改。
 
 ## 当前限制
 
@@ -64,7 +64,7 @@ npx tsgo tsc --project path/to/tsconfig.json
 
 对于与 TypeScript-Go 本身相关的问题，请在[官方仓库](https://github.com/microsoft/typescript-go)中提交。
 
-对于特定于此 NPM 包发行版的问题，请在 <https://github.com/rxliuli/tsgo-npm-release> 中提交。
+对于特定于此 NPM 包发行版的问题，请在 <https://github.com/mxyhi/tsgo-npm-release> 中提交。
 
 ## 许可证
 

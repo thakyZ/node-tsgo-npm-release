@@ -21,7 +21,7 @@ This unofficial package allows developers to:
 ## Installation
 
 ```bash
-npm install @rxliuli/tsgo
+npm install @mxyhi/tsgo
 ```
 
 ## Usage
@@ -64,7 +64,7 @@ This unofficial package will be updated periodically as significant progress is 
 
 For issues related to TypeScript-Go itself, please file them in the [official repository](https://github.com/microsoft/typescript-go).
 
-For issues specific to this NPM package distribution, please file them in <https://github.com/rxliuli/tsgo-npm-release>.
+For issues specific to this NPM package distribution, please file them in <https://github.com/mxyhi/tsgo-npm-release>.
 
 ## License
 
