@@ -66,12 +66,12 @@ jobs:
           # 获取六小时前的时间戳
           SIX_HOURS_AGO=$(date -d "6 hours ago" +"%Y-%m-%d %H:%M:%S")
           
-          # 获取最近六小时的提交记录
-          CHANGELOG=$(git log --since="$SIX_HOURS_AGO" --pretty=format:"* %h %s (%an)" --no-merges)
+          # 获取main分支最近六小时的提交记录
+          CHANGELOG=$(git log main --since="$SIX_HOURS_AGO" --pretty=format:"* %h %s (%an)" --no-merges)
           
           # 如果没有提交记录，则添加默认消息
           if [ -z "$CHANGELOG" ]; then
-            CHANGELOG="No new commits in the last 6 hours."
+            CHANGELOG="No new commits in the last 6 hours on main branch."
           fi
           
           # 将changelog保存到输出变量，处理多行字符串
@@ -176,14 +176,37 @@ jobs:
             npm version $VERSION --no-git-tag-version
           fi
 
-      - name: Commit package.json changes to repository
+      - name: Update CHANGELOG.md
+        working-directory: ./npm-package
+        run: |
+          # Prepare changelog for new version
+          NEW_CHANGELOG="# $VERSION ($(date +'%Y-%m-%d'))\n\n## Changes in the last 6 hours:\n${{ steps.changelog.outputs.CHANGELOG }}\n\n"
+          
+          # Check if CHANGELOG.md exists
+          if [ -f "CHANGELOG.md" ]; then
+            # If exists, add new changelog at the beginning of the file
+            EXISTING_CONTENT=$(cat CHANGELOG.md)
+            echo "$NEW_CHANGELOG$EXISTING_CONTENT" > CHANGELOG.md
+          else
+            # If not exists, create a new file
+            echo "$NEW_CHANGELOG" > CHANGELOG.md
+          fi
+          
+          # Display updated CHANGELOG.md content
+          echo "Updated CHANGELOG.md:"
+          cat CHANGELOG.md | head -20
+
+      - name: Commit package.json changes and changelog to repository
         working-directory: ./npm-package
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add package.json
+          git add CHANGELOG.md
           git commit -m "release: update version to $VERSION" || echo "No changes to commit"
+          git tag -a v$VERSION -m "Release $VERSION\n\n${{ steps.changelog.outputs.CHANGELOG }}"
           git push origin HEAD:main
+          git push origin v$VERSION
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
