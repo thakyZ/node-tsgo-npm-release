@@ -164,12 +164,6 @@ jobs:
           git commit -m "release: update version to $VERSION" || echo "No changes to commit"
           git push origin HEAD:main
 
-      - name: Publish to npm
-        working-directory: ./npm-package
-        run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -192,3 +186,9 @@ jobs:
           files: ./release-artifacts/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to npm
+        working-directory: ./npm-package
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
