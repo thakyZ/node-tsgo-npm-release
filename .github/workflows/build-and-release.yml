@@ -233,23 +233,23 @@ jobs:
             git push origin v$VERSION || echo "Failed to push tag, it may already exist remotely"
           fi
 
-      # - name: Create GitHub Release
-      #   uses: softprops/action-gh-release@v2
-      #   with:
-      #     tag_name: v${{ steps.version.outputs.version }}
-      #     name: Release ${{ steps.version.outputs.version }}
-      #     body: |
-      #       TypeScript-Go build for ${{ steps.version.outputs.version }}
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: Release ${{ steps.version.outputs.version }}
+          body: |
+            TypeScript-Go build for ${{ steps.version.outputs.version }}
 
-      #       This release contains the latest build of TypeScript-Go with binary executables for multiple platforms.
+            This release contains the latest build of TypeScript-Go with binary executables for multiple platforms.
 
-      #       ## Changes in the last 6 hours:
-      #       ${{ steps.changelog.outputs.CHANGELOG }}
-      #     draft: false
-      #     prerelease: false
-      #     files: ./release-artifacts/*
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            ## Changes in the last 6 hours:
+            ${{ steps.changelog.outputs.CHANGELOG }}
+          draft: false
+          prerelease: false
+          files: ./release-artifacts/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: Upload binaries to GitHub Release
       #   uses: softprops/action-gh-release@v1
