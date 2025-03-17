@@ -25,7 +25,7 @@ jobs:
       - name: Generate version number
         id: version
         run: |
-          VERSION=$(date +'%Y.%-m.%-d-%H')
+          VERSION=$(date +'%Y.%-m.%-d-%-H')
           echo "Current version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "version=$VERSION" >> $GITHUB_OUTPUT
