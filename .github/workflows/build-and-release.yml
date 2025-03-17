@@ -175,26 +175,6 @@ jobs:
             npm version $VERSION --no-git-tag-version
           fi
 
-      - name: Update CHANGELOG.md
-        working-directory: ./npm-package
-        run: |
-          # Prepare changelog for new version
-          NEW_CHANGELOG=$(printf "# %s (%s)\n\n## Changes in the last 6 hours:\n%s\n\n" "$VERSION" "$(date +'%Y-%m-%d')" "${{ steps.changelog.outputs.CHANGELOG }}")
-
-          # Check if CHANGELOG.md exists
-          if [ -f "CHANGELOG.md" ]; then
-            # If exists, add new changelog at the beginning of the file
-            EXISTING_CONTENT=$(cat CHANGELOG.md)
-            echo "$NEW_CHANGELOG$EXISTING_CONTENT" > CHANGELOG.md
-          else
-            # If not exists, create a new file
-            echo "$NEW_CHANGELOG" > CHANGELOG.md
-          fi
-
-          # Display updated CHANGELOG.md content
-          echo "Updated CHANGELOG.md:"
-          cat CHANGELOG.md | head -20
-
       - name: Commit package.json changes and changelog to repository
         working-directory: ./npm-package
         run: |
