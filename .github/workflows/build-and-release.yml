@@ -191,7 +191,6 @@ jobs:
           git stash pop || echo "No stash to pop"
 
           git add package.json
-          git add CHANGELOG.md
           git commit -m "release: update version to $VERSION" || echo "No changes to commit"
           TAG_MESSAGE=$(printf "Release %s\n\n%s" "$VERSION" "${{ steps.changelog.outputs.CHANGELOG }}")
 
