@@ -1,6 +1,6 @@
 {
   "name": "@rxliuli/tsgo",
-  "version": "0.1.2",
+  "version": "2025.3.30",
   "description": "typescript-go npm release(unofficial)",
   "type": "module",
   "bin": {
@@ -19,10 +19,7 @@
     "url": "https://github.com/rxliuli/tsgo-npm-release"
   },
   "dependencies": {
-    "bin-links": "^3.0.3",
-    "node-fetch": "^2.6.7",
-    "path-exists": "^5.0.0",
-    "tar": "^6.1.11"
+    "path-exists": "^5.0.0"
   },
   "os": [
     "darwin",
