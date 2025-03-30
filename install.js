@@ -1,9 +1,8 @@
-import { chmodSync } from 'node:fs'
+import { existsSync, chmodSync } from 'node:fs'
 import path, { join } from 'node:path'
 import { mkdir, writeFile } from 'node:fs/promises'
 import json from './package.json' with { type: 'json' }
 import { fileURLToPath } from 'node:url'
-import { pathExists } from 'path-exists'
 
 const platform = process.platform
 const arch = process.arch
@@ -33,7 +32,7 @@ await mkdir(binDir, { recursive: true })
 
 const binaryPath = join(binDir, binaryName)
 
-if (await pathExists(binaryPath)) {
+if (existsSync(binaryPath)) {
   // console.log('Binary file already exists, skipping download.')
   process.exit(0)
 }
