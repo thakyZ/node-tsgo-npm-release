@@ -18,9 +18,6 @@
   "repository": {
     "url": "https://github.com/rxliuli/tsgo-npm-release"
   },
-  "dependencies": {
-    "path-exists": "^5.0.0"
-  },
   "os": [
     "darwin",
     "linux",
