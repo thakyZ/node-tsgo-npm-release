@@ -47,7 +47,7 @@ if (await pathExists(binaryPath)) {
 
 async function download() {
   if (env.TSGO_DIRECTORY) {
-    const filePath = join(env.TSGO_DIRECTORY, 'built', 'local', 'tsgo.exe')
+    const filePath = join(env.TSGO_DIRECTORY, 'built', 'local', `tsgo${ext}`)
 
     if (existsSync(filePath)) {
       try {
